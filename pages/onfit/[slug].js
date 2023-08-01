@@ -126,6 +126,7 @@ const ProductRoyerCustom = () => {
         talles,
         categoria,
         subcategoria,
+
       };
 
       const existProduct = {
@@ -140,6 +141,7 @@ const ProductRoyerCustom = () => {
         talles,
         categoria,
         subcategoria,
+
       };
 
       const response =
