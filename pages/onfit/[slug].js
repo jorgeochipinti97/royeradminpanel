@@ -126,6 +126,7 @@ const ProductRoyerCustom = () => {
         talles,
         categoria,
         subcategoria,
+        personalization:''
 
       };
 
@@ -141,6 +142,7 @@ const ProductRoyerCustom = () => {
         talles,
         categoria,
         subcategoria,
+        personalization:''
 
       };
 

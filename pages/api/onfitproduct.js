@@ -20,6 +20,7 @@ export default async function handler(req, res) {
         categoria,
         subcategoria,
         tags,
+        personalization
       } = req.body;
 
 
@@ -34,6 +35,7 @@ export default async function handler(req, res) {
         tags,
         categoria,
         subcategoria,
+        personalization
       });
       await nuevoProducto.save();
       console.log(nuevoProducto)
