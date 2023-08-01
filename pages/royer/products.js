@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { CardMedia, Grid, Link } from "@mui/material";
+import { Button, CardMedia, Grid, Link } from "@mui/material";
 import NextLink from "next/link";
 import { LayoutAdmin } from "@/components/LayoutAdmin";
 
@@ -40,16 +40,18 @@ const columns = [
 ];
 const ProductsRoyer = () => {
   const [products, setProducts] = useState();
+  const [idsToRemve, setIdsToremove]= useState([])
+
   const getProducts = async () => {
     const data = await axios.get("/api/royerproduct");
     setProducts(data.data);
     console.log(data.data);
   };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
-
+  
+  
+    useEffect(() => {
+      getProducts();
+    }, []);
 
 
   const rows = products && products.map((product) => ({
@@ -61,10 +63,26 @@ const ProductsRoyer = () => {
     categoria: product.categoria,
     subcategoria: product.subcategoria,
   }));
-
+  const handleEliminarSeleccionados = async () => {
+    try {
+      // Enviar la solicitud DELETE a la API con el array de IDs de los productos seleccionados
+      await axios.delete('/api/deleteproductsroyer', { data: { selectedProductIds: idsToRemve } });
+  
+      // Actualiza la lista de productos después de la eliminación exitosa
+      const nuevosProductos = products.filter((producto) => !idsToRemve.includes(producto._id));
+      setProducts(nuevosProductos);
+  
+      // Limpia la lista de selección después de la eliminación exitosa
+      setSelectedProducts([]);
+    } catch (error) {
+      // Maneja errores de eliminación si es necesario
+      console.error('Error al eliminar productos seleccionados:', error);
+    }
+  };
   return (
     <>
     <LayoutAdmin>
+    <Button variant='contained' color='error' sx={{mx:2}} onClick={handleEliminarSeleccionados}>Eliminar seleccionados</Button>
 
       <Grid container className="fadeIn" sx={{backgroundColor:'white',height:'100vh',py:5,mt:4}}>
         <Grid item xs={12} sx={{ height: '100%', width: "100%" }}>
@@ -74,6 +92,7 @@ const ProductsRoyer = () => {
             pageSize={10}
             rowsPerPageOptions={[10]}
             checkboxSelection
+            onRowSelectionModelChange={itm => setIdsToremove(itm)}
             />
         </Grid>
       </Grid>
