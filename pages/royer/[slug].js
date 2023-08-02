@@ -1,6 +1,6 @@
 import { LayoutAdmin } from "@/components/LayoutAdmin";
-import SaveIcon from '@mui/icons-material/Save';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import SaveIcon from "@mui/icons-material/Save";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
   Box,
   Button,
@@ -13,8 +13,37 @@ import {
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
+import { FileUploader } from "react-drag-drop-files";
 
 const ProductRoyerCustom = () => {
+  const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
+
+  const handleChange = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "royerstore");
+
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/ddixxuvmi/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setImagesArray(imagesArray.concat(data.secure_url));
+        setUploadData(data);
+      } else {
+        console.error("Error al cargar la imagen en Cloudinary");
+      }
+    } catch (er) {
+      console.log(er);
+    }
+  };
+
   const fileInputRef = useRef();
   const { query, replace, reload } = useRouter();
   const [titulo, setTitulo] = useState("");
@@ -147,7 +176,6 @@ const ProductRoyerCustom = () => {
           ? await axios.post("/api/royerproduct", newProduct)
           : await axios.put("/api/royerproduct", existProduct);
 
-
       query.slug == "new" && replace(`/royer/${slug}`);
       query.slug != "new" && reload();
     } catch (error) {
@@ -205,31 +233,7 @@ const ProductRoyerCustom = () => {
     setTalles(updatedTalles);
   };
 
-  const handleOnChange = async(changeEvent) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", changeEvent.target.files[0]);
-      formData.append("upload_preset", "royerstore");
 
-      const response = await fetch(
-        "https://api.cloudinary.com/v1_1/ddixxuvmi/image/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setImagesArray(imagesArray.concat(data.secure_url));
-        setUploadData(data);
-      } else {
-        console.error("Error al cargar la imagen en Cloudinary");
-      }
-    } catch (er) {
-      console.log(er);
-    }
-  };
   const handleEliminarFoto = (index) => {
     const nuevasImagenes = [...imagesArray];
     nuevasImagenes.splice(index, 1);
@@ -240,29 +244,7 @@ const ProductRoyerCustom = () => {
     setProducto_({ ...producto_, images: imagesArray });
   }, [imagesArray]);
 
-  const handleOnSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const fileInput = Array.from(form.elements).find(
-      ({ name }) => name === "file"
-    );
 
-    const formData = new FormData();
-
-    for (const file of fileInput.files) {
-      formData.append("file", file);
-    }
-
-    formData.append("upload_preset", "royerstore");
-
-    const data = await axios.post(
-      "https://api.cloudinary.com/v1_1/ddixxuvmi/image/upload",
-      formData
-    );
-
-    setImagesArray(imagesArray.concat(data.data.secure_url));
-    setUploadData(data);
-  };
 
   const handleTituloChange = (title) => {
     const newTitulo = title;
@@ -298,23 +280,13 @@ const ProductRoyerCustom = () => {
         >
           <h1>{titulo}</h1>
 
-          <form
-            method="post"
-            onChange={handleOnChange}
-          >
-            <Button variant="outlined" color="secondary"    startIcon={<FileUploadIcon/>}                         onClick={() => fileInputRef.current?.click()}
->
-              Cargar imagen
-            </Button>
-            <input
-              type="file"
+            <FileUploader
+              handleChange={handleChange}
               name="file"
-              accept=".jpg, .jpeg, .png"
-              ref={fileInputRef}
-              style={{display:'none'}}
+              types={fileTypes}
+              maxSize={4}
             />
 
-          </form>
           <Box sx={{ display: "flex", my: 2 }}>
             {producto_ &&
               producto_.images.map((e, index) => (
@@ -342,13 +314,13 @@ const ProductRoyerCustom = () => {
               ))}
           </Box>
           <form onSubmit={handleSubmit}>
-            <Box sx={{ py: 4,mx:2 }} display={"flex"} justifyContent={"end"}>
+            <Box sx={{ py: 4, mx: 2 }} display={"flex"} justifyContent={"end"}>
               <Button
                 type="submit"
                 variant="contained"
                 color="secondary"
                 size="large"
-                startIcon={<SaveIcon/>}    
+                startIcon={<SaveIcon />}
               >
                 {query.slug === "new" ? "Crear Producto" : "Modificar Producto"}
               </Button>
@@ -526,7 +498,7 @@ const ProductRoyerCustom = () => {
                 variant="contained"
                 color="secondary"
                 size="large"
-                startIcon={<SaveIcon/>}    
+                startIcon={<SaveIcon />}
               >
                 {query.slug === "new" ? "Crear Producto" : "Modificar Producto"}
               </Button>
