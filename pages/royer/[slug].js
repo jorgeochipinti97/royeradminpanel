@@ -16,7 +16,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
 const ProductRoyerCustom = () => {
-  const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
+  const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "WEBP"];
 
   const handleChange = async (file) => {
     try {
