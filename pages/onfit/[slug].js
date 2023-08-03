@@ -36,6 +36,7 @@ const ProductRoyerCustom = () => {
   const [newTagValue, setNewTagValue] = useState("");
   const [tags, setTags] = useState([]);
   const [imagesArray, setImagesArray] = useState([]);
+  const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "AVIF", "WEBP"];
 
   const init = async (slug_) => {
     const data = await axios.get("/api/onfitproduct");
