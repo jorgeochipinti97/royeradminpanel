@@ -19,7 +19,7 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      {/* {user && (
+      {user && (
         <Box>
           <Typography
             variant="subtitle1"
@@ -28,7 +28,7 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
             Hola! {user.name}
           </Typography>
         </Box>
-      )} */}
+      )}
       <Navbar />
       <Box sx={{ my: 10, display:router.asPath =='/' ? 'none' :'' }} display={"flex"} justifyContent={"center"}>
           {/* <NextLink href={`/${url_}/new`} passHref> */}
