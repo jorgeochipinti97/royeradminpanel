@@ -22,35 +22,51 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
       <Head>
         <title>{title}</title>
       </Head>
-
-      <Navbar />
-      <Box
-        sx={{ my: 10, display: router.asPath == "/" ? "none" : "" }}
-        display={"flex"}
-        justifyContent={"center"}
-      >
-        {/* <NextLink href={`/${url_}/new`} passHref> */}
-        <Button
-          color={router.asPath.includes("new") ? "primary" : "info"}
-          onClick={() => router.push(`/${url_}/new`)}
-        >
-          Crear nuevo producto
-        </Button>
-        {/* </NextLink> */}
-        <NextLink href={`/${url_}/products`} passHref>
-          <Button
-            color={router.asPath.includes("products") ? "primary" : "info"}
-          >
-            Productos
-          </Button>
-        </NextLink>
-        <NextLink href={`/${url_}/orders`} passHref>
-          <Button color={router.asPath.includes("orders") ? "primary" : "info"}>
-            Ordenes{" "}
-          </Button>
-        </NextLink>
-      </Box>
-      <Box sx={{}}>{children}</Box>
+      {(user && user.email.toLocaleLowerCase() == "maurobelli22@gmail.com") ||
+        user.email.toLocaleLowerCase() == "felanese1996@gmail.com" ||
+        user.email.toLocaleLowerCase() == "sgerzovich@gmail.com" ||
+        (user.email.toLocaleLowerCase() == "jorgeochipinti97@gmail.com" ? (
+          <>
+            <Navbar />
+            <Box
+              sx={{ my: 10, display: router.asPath == "/" ? "none" : "" }}
+              display={"flex"}
+              justifyContent={"center"}
+            >
+              {/* <NextLink href={`/${url_}/new`} passHref> */}
+              <Button
+                color={router.asPath.includes("new") ? "primary" : "info"}
+                onClick={() => router.push(`/${url_}/new`)}
+              >
+                Crear nuevo producto
+              </Button>
+              {/* </NextLink> */}
+              <NextLink href={`/${url_}/products`} passHref>
+                <Button
+                  color={
+                    router.asPath.includes("products") ? "primary" : "info"
+                  }
+                >
+                  Productos
+                </Button>
+              </NextLink>
+              <NextLink href={`/${url_}/orders`} passHref>
+                <Button
+                  color={router.asPath.includes("orders") ? "primary" : "info"}
+                >
+                  Ordenes{" "}
+                </Button>
+              </NextLink>
+            </Box>
+            <Box sx={{}}>{children}</Box>
+          </>
+        ) : (
+          <>
+            <Box>
+              <Typography variant="h5">Please Login</Typography>
+            </Box>
+          </>
+        ))}
     </>
   );
 };
