@@ -122,10 +122,6 @@ const ProductRoyerCustom = () => {
       setIsInitialized(true);
       init(query.slug);
     }
-
-
-    
-
   }, [query.slug, isInitialized]);
 
   useEffect(() => {
@@ -163,8 +159,6 @@ const ProductRoyerCustom = () => {
       ]);
       setImagesArray([]);
     }
-    
-
   }, [query.slug]);
 
   useEffect(() => {}, [query]);
@@ -496,14 +490,12 @@ const ProductRoyerCustom = () => {
                 ))}
             </Box>
             <h3>Agregar Productos Relacionados:</h3>
-            <Grid container sx={{my:4}}>
+            <Grid container sx={{ my: 4 }}>
               {productosExistentes &&
                 productosExistentes.map((producto) => (
-                  <Grid item md={3} sx={{my:2}}>
+                  <Grid item md={3} sx={{ my: 2 }} key={producto._id}>
                     <Card
-                      key={producto._id}
                       sx={{
-
                         width: "200px",
                         borderRadius: "0px",
                       }}
