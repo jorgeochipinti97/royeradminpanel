@@ -14,38 +14,41 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
   useEffect(() => {
     router.asPath.includes("roye") ? setUrl_("royer") : setUrl_("onfit");
   }, [router]);
+  useEffect(() => {
+    user && console.log(user);
+  }, [user]);
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      {user && (
-        <Box>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "black", textAlign: "center" }}
-          >
-            Hola! {user.name}
-          </Typography>
-        </Box>
-      )}
+
       <Navbar />
-      <Box sx={{ my: 10, display:router.asPath =='/' ? 'none' :'' }} display={"flex"} justifyContent={"center"}>
-          {/* <NextLink href={`/${url_}/new`} passHref> */}
-            <Button color={router.asPath.includes("new") ? "primary" : "info"} onClick={()=> router.push(`/${url_}/new`)}>
-              Crear nuevo producto
-            </Button>
-          {/* </NextLink> */}
-          <NextLink href={`/${url_}/products`} passHref>
-            <Button color={router.asPath.includes("products") ? "primary" : "info"}>
-              Productos
-            </Button>
-          </NextLink>
-          <NextLink href={`/${url_}/orders`} passHref>
-            <Button color={router.asPath.includes("orders") ? "primary" : "info"}>
-              Ordenes{" "}
-            </Button>
-          </NextLink>
+      <Box
+        sx={{ my: 10, display: router.asPath == "/" ? "none" : "" }}
+        display={"flex"}
+        justifyContent={"center"}
+      >
+        {/* <NextLink href={`/${url_}/new`} passHref> */}
+        <Button
+          color={router.asPath.includes("new") ? "primary" : "info"}
+          onClick={() => router.push(`/${url_}/new`)}
+        >
+          Crear nuevo producto
+        </Button>
+        {/* </NextLink> */}
+        <NextLink href={`/${url_}/products`} passHref>
+          <Button
+            color={router.asPath.includes("products") ? "primary" : "info"}
+          >
+            Productos
+          </Button>
+        </NextLink>
+        <NextLink href={`/${url_}/orders`} passHref>
+          <Button color={router.asPath.includes("orders") ? "primary" : "info"}>
+            Ordenes{" "}
+          </Button>
+        </NextLink>
       </Box>
       <Box sx={{}}>{children}</Box>
     </>
