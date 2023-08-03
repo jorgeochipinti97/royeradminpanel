@@ -22,7 +22,7 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      {(user && user.email.toLocaleLowerCase() == "maurobelli22@gmail.com") ||
+      {(user.email && user.email.toLocaleLowerCase() == "maurobelli22@gmail.com") ||
         user.email.toLocaleLowerCase() == "felanese1996@gmail.com" ||
         user.email.toLocaleLowerCase() == "sgerzovich@gmail.com" ||
         (user.email.toLocaleLowerCase() == "jorgeochipinti97@gmail.com" ? (
@@ -33,14 +33,12 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
               display={"flex"}
               justifyContent={"center"}
             >
-              {/* <NextLink href={`/${url_}/new`} passHref> */}
               <Button
                 color={router.asPath.includes("new") ? "primary" : "info"}
                 onClick={() => router.push(`/${url_}/new`)}
               >
                 Crear nuevo producto
               </Button>
-              {/* </NextLink> */}
               <NextLink href={`/${url_}/products`} passHref>
                 <Button
                   color={
