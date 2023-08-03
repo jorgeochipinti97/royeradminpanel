@@ -1,6 +1,6 @@
 import { LayoutAdmin } from "@/components/LayoutAdmin";
 import SaveIcon from '@mui/icons-material/Save';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
+
 import { FileUploader } from "react-drag-drop-files";
 
 
