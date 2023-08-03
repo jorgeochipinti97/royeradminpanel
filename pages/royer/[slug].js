@@ -4,7 +4,9 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
   Box,
   Button,
+  Card,
   Chip,
+  Grid,
   MenuItem,
   Select,
   TextField,
@@ -16,7 +18,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
 const ProductRoyerCustom = () => {
-  const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "AVIF","WEBP"];
+  const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "AVIF", "WEBP"];
 
   const handleChange = async (file) => {
     try {
@@ -45,7 +47,7 @@ const ProductRoyerCustom = () => {
   };
 
   const fileInputRef = useRef();
-  const { query, replace, reload } = useRouter();
+  const { query, push, reload } = useRouter();
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState(0);
@@ -120,7 +122,52 @@ const ProductRoyerCustom = () => {
       setIsInitialized(true);
       init(query.slug);
     }
+
+
+    
+
   }, [query.slug, isInitialized]);
+
+  useEffect(() => {
+    if (query.slug && query.slug.toLowerCase().includes("new")) {
+      setTitulo("");
+      setDescripcion("");
+      setPrecio(0);
+      setCategoria("");
+      setSubcategoria("");
+      setTalles([
+        { nombre: "xs", stock: 0 },
+        { nombre: "s", stock: 0 },
+        { nombre: "m", stock: 0 },
+        { nombre: "l", stock: 0 },
+        { nombre: "xl", stock: 0 },
+        { nombre: "xxl", stock: 0 },
+        { nombre: "xxxl", stock: 0 },
+        { nombre: "unique", stock: 0 },
+        { nombre: "7.5", stock: 0 },
+        { nombre: "8", stock: 0 },
+        { nombre: "8.5", stock: 0 },
+        { nombre: "9", stock: 0 },
+        { nombre: "9.5", stock: 0 },
+        { nombre: "10", stock: 0 },
+        { nombre: "10.5", stock: 0 },
+        { nombre: "11", stock: 0 },
+        { nombre: "11.5", stock: 0 },
+        { nombre: "12", stock: 0 },
+        { nombre: "12.5", stock: 0 },
+        { nombre: "13", stock: 0 },
+        { nombre: "13.5", stock: 0 },
+        { nombre: "14", stock: 0 },
+        { nombre: "14.5", stock: 0 },
+        { nombre: "15", stock: 0 },
+      ]);
+      setImagesArray([]);
+    }
+    
+
+  }, [query.slug]);
+
+  useEffect(() => {}, [query]);
 
   const handleAddRelacionado = (productId) => {
     const index = productosRelacionados.indexOf(productId);
@@ -176,7 +223,7 @@ const ProductRoyerCustom = () => {
           ? await axios.post("/api/royerproduct", newProduct)
           : await axios.put("/api/royerproduct", existProduct);
 
-      query.slug == "new" && replace(`/royer/${slug}`);
+      query.slug == "new" && push(`/royer/${slug}`);
       query.slug != "new" && reload();
     } catch (error) {
       console.error("Error al crear el producto:", error);
@@ -233,7 +280,6 @@ const ProductRoyerCustom = () => {
     setTalles(updatedTalles);
   };
 
-
   const handleEliminarFoto = (index) => {
     const nuevasImagenes = [...imagesArray];
     nuevasImagenes.splice(index, 1);
@@ -243,8 +289,6 @@ const ProductRoyerCustom = () => {
   useEffect(() => {
     setProducto_({ ...producto_, images: imagesArray });
   }, [imagesArray]);
-
-
 
   const handleTituloChange = (title) => {
     const newTitulo = title;
@@ -280,12 +324,12 @@ const ProductRoyerCustom = () => {
         >
           <h1>{titulo}</h1>
 
-            <FileUploader
-              handleChange={handleChange}
-              name="file"
-              types={fileTypes}
-              maxSize={4}
-            />
+          <FileUploader
+            handleChange={handleChange}
+            name="file"
+            types={fileTypes}
+            maxSize={4}
+          />
 
           <Box sx={{ display: "flex", my: 2 }}>
             {producto_ &&
@@ -452,46 +496,52 @@ const ProductRoyerCustom = () => {
                 ))}
             </Box>
             <h3>Agregar Productos Relacionados:</h3>
-            <Box display="flex">
+            <Grid container sx={{my:4}}>
               {productosExistentes &&
                 productosExistentes.map((producto) => (
-                  <Box
-                    key={producto._id}
-                    sx={{
-                      border: "1px solid black",
-                      width: "200px",
-                      borderRadius: "0px",
-                    }}
-                  >
-                    <Typography variant="body1" textAlign={"center"}>
-                      {producto.titulo}
-                    </Typography>
-                    <Box display={"flex"} justifyContent={"center"}>
-                      <img src={producto.images[0]} width={100} height={100} />
-                    </Box>
-                    <Box
-                      display={"flex"}
-                      justifyContent={"center"}
-                      sx={{ my: 1 }}
+                  <Grid item md={3} sx={{my:2}}>
+                    <Card
+                      key={producto._id}
+                      sx={{
+
+                        width: "200px",
+                        borderRadius: "0px",
+                      }}
                     >
-                      <Button
-                        type="button"
-                        variant="outlined"
-                        color={
-                          productosRelacionados.indexOf(producto._id) >= 0
-                            ? "error"
-                            : "secondary"
-                        }
-                        onClick={() => handleAddRelacionado(producto._id)}
+                      <Typography variant="body1" textAlign={"center"}>
+                        {producto.titulo}
+                      </Typography>
+                      <Box display={"flex"} justifyContent={"center"}>
+                        <img
+                          src={producto.images[0]}
+                          width={100}
+                          height={100}
+                        />
+                      </Box>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"center"}
+                        sx={{ my: 1 }}
                       >
-                        {productosRelacionados.indexOf(producto._id) >= 0
-                          ? "Eliminar Producto"
-                          : "Agregar Producto"}
-                      </Button>
-                    </Box>
-                  </Box>
+                        <Button
+                          type="button"
+                          variant="outlined"
+                          color={
+                            productosRelacionados.indexOf(producto._id) >= 0
+                              ? "error"
+                              : "secondary"
+                          }
+                          onClick={() => handleAddRelacionado(producto._id)}
+                        >
+                          {productosRelacionados.indexOf(producto._id) >= 0
+                            ? "Eliminar Producto"
+                            : "Agregar Producto"}
+                        </Button>
+                      </Box>
+                    </Card>
+                  </Grid>
                 ))}
-            </Box>
+            </Grid>
             <Box sx={{ py: 4 }} display={"flex"} justifyContent={"center"}>
               <Button
                 type="submit"

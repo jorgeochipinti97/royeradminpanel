@@ -31,11 +31,11 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
       )} */}
       <Navbar />
       <Box sx={{ my: 10, display:router.asPath =='/' ? 'none' :'' }} display={"flex"} justifyContent={"center"}>
-          <NextLink href={`/${url_}/new`} passHref>
-            <Button color={router.asPath.includes("new") ? "primary" : "info"}>
+          {/* <NextLink href={`/${url_}/new`} passHref> */}
+            <Button color={router.asPath.includes("new") ? "primary" : "info"} onClick={()=> router.push(`/${url_}/new`)}>
               Crear nuevo producto
             </Button>
-          </NextLink>
+          {/* </NextLink> */}
           <NextLink href={`/${url_}/products`} passHref>
             <Button color={router.asPath.includes("products") ? "primary" : "info"}>
               Productos
