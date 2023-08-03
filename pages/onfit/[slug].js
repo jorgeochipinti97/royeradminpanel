@@ -13,6 +13,9 @@ import {
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import { FileUploader } from "react-drag-drop-files";
+
 
 const ProductRoyerCustom = () => {
   const fileInputRef = useRef();
@@ -93,6 +96,43 @@ const ProductRoyerCustom = () => {
     }
   }, [query.slug, isInitialized]);
 
+  useEffect(() => {
+    if (query.slug && query.slug.toLowerCase().includes("new")) {
+      setTitulo("");
+      setDescripcion("");
+      setPrecio(0);
+      setCategoria("");
+      setSubcategoria("");
+      setTalles([
+        { nombre: "xs", stock: 0 },
+        { nombre: "s", stock: 0 },
+        { nombre: "m", stock: 0 },
+        { nombre: "l", stock: 0 },
+        { nombre: "xl", stock: 0 },
+        { nombre: "xxl", stock: 0 },
+        { nombre: "xxxl", stock: 0 },
+        { nombre: "unique", stock: 0 },
+        { nombre: "7.5", stock: 0 },
+        { nombre: "8", stock: 0 },
+        { nombre: "8.5", stock: 0 },
+        { nombre: "9", stock: 0 },
+        { nombre: "9.5", stock: 0 },
+        { nombre: "10", stock: 0 },
+        { nombre: "10.5", stock: 0 },
+        { nombre: "11", stock: 0 },
+        { nombre: "11.5", stock: 0 },
+        { nombre: "12", stock: 0 },
+        { nombre: "12.5", stock: 0 },
+        { nombre: "13", stock: 0 },
+        { nombre: "13.5", stock: 0 },
+        { nombre: "14", stock: 0 },
+        { nombre: "14.5", stock: 0 },
+        { nombre: "15", stock: 0 },
+      ]);
+      setImagesArray([]);
+    }
+  }, [query.slug]);
+
   const handleAddRelacionado = (productId) => {
     const index = productosRelacionados.indexOf(productId);
 
@@ -108,6 +148,33 @@ const ProductRoyerCustom = () => {
         ...prevRelacionados,
         productId,
       ]);
+    }
+  };
+
+
+  const handleChange = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "royerstore");
+
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/ddixxuvmi/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setImagesArray(imagesArray.concat(data.secure_url));
+        setUploadData(data);
+      } else {
+        console.error("Error al cargar la imagen en Cloudinary");
+      }
+    } catch (er) {
+      console.log(er);
     }
   };
 
@@ -209,31 +276,7 @@ const ProductRoyerCustom = () => {
     setTalles(updatedTalles);
   };
 
-  const handleOnChange = async(changeEvent) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", changeEvent.target.files[0]);
-      formData.append("upload_preset", "royerstore");
 
-      const response = await fetch(
-        "https://api.cloudinary.com/v1_1/ddixxuvmi/image/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setImagesArray(imagesArray.concat(data.secure_url));
-        setUploadData(data);
-      } else {
-        console.error("Error al cargar la imagen en Cloudinary");
-      }
-    } catch (er) {
-      console.log(er);
-    }
-  };
   const handleEliminarFoto = (index) => {
     const nuevasImagenes = [...imagesArray];
     nuevasImagenes.splice(index, 1);
@@ -244,34 +287,10 @@ const ProductRoyerCustom = () => {
     setProducto_({ ...producto_, images: imagesArray });
   }, [imagesArray]);
 
-  const handleOnSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const fileInput = Array.from(form.elements).find(
-      ({ name }) => name === "file"
-    );
-
-    const formData = new FormData();
-
-    for (const file of fileInput.files) {
-      formData.append("file", file);
-    }
-
-    formData.append("upload_preset", "royerstore");
-
-    const data = await axios.post(
-      "https://api.cloudinary.com/v1_1/ddixxuvmi/image/upload",
-      formData
-    );
-
-    setImagesArray(imagesArray.concat(data.data.secure_url));
-    setUploadData(data);
-  };
 
   const handleTituloChange = (title) => {
     const newTitulo = title;
 
-    // Reemplazar caracteres no deseados por espacios en blanco
     const cleanedTitulo = newTitulo.replace(/[\\/\|]/g, " ");
 
     setTitulo(cleanedTitulo);
@@ -280,9 +299,9 @@ const ProductRoyerCustom = () => {
   const handlePrecioChange = (event) => {
     const newPrecio = event.target.value;
 
-    // Verificar si el nuevo precio es un número válido y no negativo
+
     if (isNaN(newPrecio) || parseFloat(newPrecio) < 0) {
-      // Si es inválido o negativo, mostrar mensaje de error o hacer algo
+
       return;
     }
 
@@ -302,23 +321,13 @@ const ProductRoyerCustom = () => {
         >
           <h1>{titulo}</h1>
 
-          <form
-            method="post"
-            onChange={handleOnChange}
-          >
-            <Button variant="outlined" color="secondary"    startIcon={<FileUploadIcon/>}                         onClick={() => fileInputRef.current?.click()}
->
-              Cargar imagen
-            </Button>
-            <input
-              type="file"
-              name="file"
-              accept=".jpg, .jpeg, .png"
-              ref={fileInputRef}
-              style={{display:'none'}}
-            />
+          <FileUploader
+            handleChange={handleChange}
+            name="file"
+            types={fileTypes}
+            maxSize={4}
+          />
 
-          </form>
           <Box sx={{ display: "flex", my: 2 }}>
             {producto_ &&
               producto_.images.map((e, index) => (
