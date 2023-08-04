@@ -1,5 +1,5 @@
 import { LayoutAdmin } from "@/components/LayoutAdmin";
-import SaveIcon from '@mui/icons-material/Save';
+import SaveIcon from "@mui/icons-material/Save";
 
 import {
   Box,
@@ -15,7 +15,6 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
 
 import { FileUploader } from "react-drag-drop-files";
-
 
 const ProductRoyerCustom = () => {
   const fileInputRef = useRef();
@@ -37,6 +36,25 @@ const ProductRoyerCustom = () => {
   const [tags, setTags] = useState([]);
   const [imagesArray, setImagesArray] = useState([]);
   const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "AVIF", "WEBP"];
+
+  const getLocation = async () => {
+    try {
+      const response = await axios.get("http://ip-api.com/json");
+      const data = response.data;
+      return {
+        country: data.country,
+        city: data.city,
+        region: data.regionName,
+        loc: `${data.lat}, ${data.lon}`,
+      };
+    } catch (error) {
+      console.error("Error fetching location data:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    getLocation().then((data) => console.logs(data));
+  }, []);
 
   const init = async (slug_) => {
     const data = await axios.get("/api/onfitproduct");
@@ -152,7 +170,6 @@ const ProductRoyerCustom = () => {
     }
   };
 
-
   const handleChange = async (file) => {
     try {
       const formData = new FormData();
@@ -194,8 +211,7 @@ const ProductRoyerCustom = () => {
         talles,
         categoria,
         subcategoria,
-        personalization:''
-
+        personalization: "",
       };
 
       const existProduct = {
@@ -210,15 +226,13 @@ const ProductRoyerCustom = () => {
         talles,
         categoria,
         subcategoria,
-        personalization:''
-
+        personalization: "",
       };
 
       const response =
         query.slug == "new"
           ? await axios.post("/api/onfitproduct", newProduct)
           : await axios.put("/api/onfitproduct", existProduct);
-
 
       query.slug == "new" && replace(`/onfit/${slug}`);
       query.slug != "new" && reload();
@@ -277,7 +291,6 @@ const ProductRoyerCustom = () => {
     setTalles(updatedTalles);
   };
 
-
   const handleEliminarFoto = (index) => {
     const nuevasImagenes = [...imagesArray];
     nuevasImagenes.splice(index, 1);
@@ -287,7 +300,6 @@ const ProductRoyerCustom = () => {
   useEffect(() => {
     setProducto_({ ...producto_, images: imagesArray });
   }, [imagesArray]);
-
 
   const handleTituloChange = (title) => {
     const newTitulo = title;
@@ -300,9 +312,7 @@ const ProductRoyerCustom = () => {
   const handlePrecioChange = (event) => {
     const newPrecio = event.target.value;
 
-
     if (isNaN(newPrecio) || parseFloat(newPrecio) < 0) {
-
       return;
     }
 
@@ -356,13 +366,13 @@ const ProductRoyerCustom = () => {
               ))}
           </Box>
           <form onSubmit={handleSubmit}>
-            <Box sx={{ py: 4,mx:2 }} display={"flex"} justifyContent={"end"}>
+            <Box sx={{ py: 4, mx: 2 }} display={"flex"} justifyContent={"end"}>
               <Button
                 type="submit"
                 variant="contained"
                 color="secondary"
                 size="large"
-                startIcon={<SaveIcon/>}    
+                startIcon={<SaveIcon />}
               >
                 {query.slug === "new" ? "Crear Producto" : "Modificar Producto"}
               </Button>
@@ -425,7 +435,9 @@ const ProductRoyerCustom = () => {
                   onChange={(e) => setSubcategoria(e.target.value)}
                   required
                 >
-                  <MenuItem value={"remera_deportiva"}>remera deportiva</MenuItem>
+                  <MenuItem value={"remera_deportiva"}>
+                    remera deportiva
+                  </MenuItem>
                   <MenuItem value={"remera_oversize"}>remera oversize</MenuItem>
                   <MenuItem value={"musculosa"}>musculosa</MenuItem>
                   <MenuItem value={"buzo"}>buzo</MenuItem>
@@ -442,7 +454,9 @@ const ProductRoyerCustom = () => {
                   onChange={(e) => setSubcategoria(e.target.value)}
                   required
                 >
-                  <MenuItem value={"remera_deportiva"}>remera deportiva</MenuItem>
+                  <MenuItem value={"remera_deportiva"}>
+                    remera deportiva
+                  </MenuItem>
                   <MenuItem value={"remera_oversize"}>remera oversize</MenuItem>
                   <MenuItem value={"top"}>top</MenuItem>
                   <MenuItem value={"buzo"}>buzo</MenuItem>
@@ -590,7 +604,7 @@ const ProductRoyerCustom = () => {
                 variant="contained"
                 color="secondary"
                 size="large"
-                startIcon={<SaveIcon/>}    
+                startIcon={<SaveIcon />}
               >
                 {query.slug === "new" ? "Crear Producto" : "Modificar Producto"}
               </Button>
