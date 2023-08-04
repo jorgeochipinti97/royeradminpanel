@@ -39,7 +39,7 @@ const ProductRoyerCustom = () => {
 
   const getLocation = async () => {
     try {
-      const response = await axios.get("http://ip-api.com/json");
+      const response = await axios.get("https://ip-api.com/json");
       const data = response.data;
       return {
         country: data.country,
