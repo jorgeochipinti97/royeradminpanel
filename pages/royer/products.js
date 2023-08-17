@@ -65,17 +65,17 @@ const ProductsRoyer = () => {
   }));
   const handleEliminarSeleccionados = async () => {
     try {
-      // Enviar la solicitud DELETE a la API con el array de IDs de los productos seleccionados
+
       await axios.delete('/api/deleteproductsroyer', { data: { selectedProductIds: idsToRemve } });
   
-      // Actualiza la lista de productos después de la eliminación exitosa
+
       const nuevosProductos = products.filter((producto) => !idsToRemve.includes(producto._id));
       setProducts(nuevosProductos);
   
-      // Limpia la lista de selección después de la eliminación exitosa
+
       setSelectedProducts([]);
     } catch (error) {
-      // Maneja errores de eliminación si es necesario
+
       console.error('Error al eliminar productos seleccionados:', error);
     }
   };

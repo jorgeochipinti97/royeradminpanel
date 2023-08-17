@@ -37,24 +37,6 @@ const ProductRoyerCustom = () => {
   const [imagesArray, setImagesArray] = useState([]);
   const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "AVIF", "WEBP"];
 
-  const getLocation = async () => {
-    try {
-      const response = await axios.get("https://ip-api.com/json");
-      const data = response.data;
-      return {
-        country: data.country,
-        city: data.city,
-        region: data.regionName,
-        loc: `${data.lat}, ${data.lon}`,
-      };
-    } catch (error) {
-      console.error("Error fetching location data:", error);
-      return null;
-    }
-  };
-  useEffect(() => {
-    getLocation().then((data) => console.logs(data));
-  }, []);
 
   const init = async (slug_) => {
     const data = await axios.get("/api/onfitproduct");
@@ -473,9 +455,8 @@ const ProductRoyerCustom = () => {
                   onChange={(e) => setSubcategoria(e.target.value)}
                   required
                 >
-                  <MenuItem value={"mancuernas"}>mancuernas</MenuItem>
+                  <MenuItem value={"fitness"}>fitness</MenuItem>
                   <MenuItem value={"maquinas"}>maquinas</MenuItem>
-                  <MenuItem value={"home"}>home</MenuItem>
                 </Select>
               </div>
             )}
