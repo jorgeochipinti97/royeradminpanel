@@ -469,8 +469,7 @@ const ProductRoyerCustom = () => {
                 >
                   <MenuItem value={"proteina"}>proteina</MenuItem>
                   <MenuItem value={"creatina"}>creatina</MenuItem>
-                  <MenuItem value={"quemadores"}>quemadores</MenuItem>
-                  <MenuItem value={"vitaminas"}>vitaminas</MenuItem>
+
                 </Select>
               </div>
             )}
