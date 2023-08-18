@@ -8,7 +8,7 @@ import { CheckBox } from "@mui/icons-material";
 
 
 
-const ProductsRoyer = () => {
+const ProductsOnfit = () => {
   const [products, setProducts] = useState();
   const [idsToRemve, setIdsToremove]= useState([])
 
@@ -46,7 +46,7 @@ const ProductsRoyer = () => {
       width: 250,
       renderCell: ({ row }) => {
         return (
-          <NextLink href={`/royer/${row.slug}`} passHref>
+          <NextLink href={`/onfit/${row.slug}`} passHref>
             <Link underline="always">{row.title}</Link>
           </NextLink>
         );
@@ -111,4 +111,4 @@ const handleEliminarSeleccionados = async () => {
     </>
   );
 };
-export default ProductsRoyer;
+export default ProductsOnfit;
