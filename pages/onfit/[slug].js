@@ -4,6 +4,8 @@ import SaveIcon from "@mui/icons-material/Save";
 import {
   Box,
   Button,
+  Card,
+  CardActionArea,
   Chip,
   MenuItem,
   Select,
@@ -541,43 +543,49 @@ const ProductRoyerCustom = () => {
                 ))}
             </Box>
             <h3>Agregar Productos Relacionados:</h3>
-            <Box display="flex">
+            <Box display="flex" flexWrap={"wrap"} justifyContent="space-around">
               {productosExistentes &&
                 productosExistentes.map((producto) => (
                   <Box
                     key={producto._id}
                     sx={{
-                      border: "1px solid black",
-                      width: "200px",
-                      borderRadius: "0px",
+                      borderRadius: "9px",
                     }}
                   >
-                    <Typography variant="body1" textAlign={"center"}>
-                      {producto.titulo}
-                    </Typography>
-                    <Box display={"flex"} justifyContent={"center"}>
-                      <img src={producto.images[0]} width={100} height={100} />
-                    </Box>
-                    <Box
-                      display={"flex"}
-                      justifyContent={"center"}
-                      sx={{ my: 1 }}
-                    >
-                      <Button
-                        type="button"
-                        variant="outlined"
-                        color={
-                          productosRelacionados.indexOf(producto._id) >= 0
-                            ? "error"
-                            : "secondary"
-                        }
-                        onClick={() => handleAddRelacionado(producto._id)}
-                      >
-                        {productosRelacionados.indexOf(producto._id) >= 0
-                          ? "Eliminar Producto"
-                          : "Agregar Producto"}
-                      </Button>
-                    </Box>
+                    <Card>
+                      <CardActionArea>
+                        <Typography variant="body1" textAlign={"center"}>
+                          {producto.titulo}
+                        </Typography>
+                        <Box display={"flex"} justifyContent={"center"}>
+                          <img
+                            src={producto.images[0]}
+                            width={100}
+                            height={100}
+                          />
+                        </Box>
+                        <Box
+                          display={"flex"}
+                          justifyContent={"center"}
+                          sx={{ my: 1 }}
+                        >
+                          <Button
+                            type="button"
+                            variant="outlined"
+                            color={
+                              productosRelacionados.indexOf(producto._id) >= 0
+                                ? "error"
+                                : "secondary"
+                            }
+                            onClick={() => handleAddRelacionado(producto._id)}
+                          >
+                            {productosRelacionados.indexOf(producto._id) >= 0
+                              ? "Eliminar Producto"
+                              : "Agregar Producto"}
+                          </Button>
+                        </Box>
+                      </CardActionArea>
+                    </Card>
                   </Box>
                 ))}
             </Box>
