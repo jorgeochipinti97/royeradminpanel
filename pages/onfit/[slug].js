@@ -428,7 +428,7 @@ const ProductRoyerCustom = () => {
                   <MenuItem value={"short"}>short</MenuItem>
                   <MenuItem value={"pantalon"}>pantalon</MenuItem>
                   <MenuItem value={"medias"}>medias</MenuItem>
-                  <MenuItem value={"medias"}>campera</MenuItem>
+                  <MenuItem value={"campera"}>campera</MenuItem>
                 </Select>
               </div>
             )}
