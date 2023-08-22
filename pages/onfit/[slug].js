@@ -7,6 +7,7 @@ import {
   Card,
   CardActionArea,
   Chip,
+  Grid,
   MenuItem,
   Select,
   TextField,
@@ -542,53 +543,52 @@ const ProductRoyerCustom = () => {
                   </Box>
                 ))}
             </Box>
+
             <h3>Agregar Productos Relacionados:</h3>
-            <Box display="flex" flexWrap={"wrap"} justifyContent="space-around">
+            <Grid container sx={{ my: 4 }}>
               {productosExistentes &&
                 productosExistentes.map((producto) => (
-                  <Box
-                    key={producto._id}
+                  <Grid item md={3} sx={{ my: 2 }} key={producto._id}>
+                  <Card
                     sx={{
-                      borderRadius: "9px",
+                      width: "200px",
+                      borderRadius: "0px",
                     }}
                   >
-                    <Card>
-                      <CardActionArea>
-                        <Typography variant="body1" textAlign={"center"}>
-                          {producto.titulo}
-                        </Typography>
-                        <Box display={"flex"} justifyContent={"center"}>
-                          <img
-                            src={producto.images[0]}
-                            width={100}
-                            height={100}
-                          />
-                        </Box>
-                        <Box
-                          display={"flex"}
-                          justifyContent={"center"}
-                          sx={{ my: 1 }}
-                        >
-                          <Button
-                            type="button"
-                            variant="outlined"
-                            color={
-                              productosRelacionados.indexOf(producto._id) >= 0
-                                ? "error"
-                                : "secondary"
-                            }
-                            onClick={() => handleAddRelacionado(producto._id)}
-                          >
-                            {productosRelacionados.indexOf(producto._id) >= 0
-                              ? "Eliminar Producto"
-                              : "Agregar Producto"}
-                          </Button>
-                        </Box>
-                      </CardActionArea>
-                    </Card>
-                  </Box>
+                    <Typography variant="body1" textAlign={"center"}>
+                      {producto.titulo}
+                    </Typography>
+                    <Box display={"flex"} justifyContent={"center"}>
+                      <img
+                        src={producto.images[0]}
+                        width={100}
+                        height={100}
+                      />
+                    </Box>
+                    <Box
+                      display={"flex"}
+                      justifyContent={"center"}
+                      sx={{ my: 1 }}
+                    >
+                      <Button
+                        type="button"
+                        variant="outlined"
+                        color={
+                          productosRelacionados.indexOf(producto._id) >= 0
+                            ? "error"
+                            : "secondary"
+                        }
+                        onClick={() => handleAddRelacionado(producto._id)}
+                      >
+                        {productosRelacionados.indexOf(producto._id) >= 0
+                          ? "Eliminar Producto"
+                          : "Agregar Producto"}
+                      </Button>
+                    </Box>
+                  </Card>
+                </Grid>
                 ))}
-            </Box>
+            </Grid>
             <Box sx={{ py: 4 }} display={"flex"} justifyContent={"center"}>
               <Button
                 type="submit"
