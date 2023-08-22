@@ -23,13 +23,14 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
         <title>{email}</title>
       </Head>
       <Navbar />
-      {(email.toLowerCase() &&
-       email == "maurobelli22@gmail.com") ||
-      email.toLowerCase() == "felanese1996@gmail.com" ||
-      email.toLowerCase() == "sgerzovich@gmail.com" ||
-      email.toLowerCase() == "jorgeochipinti97@gmail.com" ? (
-        <>
-        
+      
+      {/* // (email.toLowerCase() && email == "maurobelli22@gmail.com") ||
+      // email.toLowerCase() == "felanese1996@gmail.com" ||
+      // email.toLowerCase() == "sgerzovich@gmail.com" ||
+      // email.toLowerCase() == "jorgeochipinti97@gmail.com" 
+      
+      // ? ( */}
+        {/* <> */}
           <Box
             sx={{ my: 10, display: router.asPath == "/" ? "none" : "" }}
             display={"flex"}
@@ -57,14 +58,16 @@ export const LayoutAdmin = ({ children, title, subTitle, icon }) => {
             </NextLink>
           </Box>
           <Box sx={{}}>{children}</Box>
-        </>
-      ) : (
-        <>
-          <Box sx={{height:'100vh'}} display={'flex'} alignItems={"center"} justifyContent={'center'}>
+{/* 
+          <Box
+            sx={{ height: "100vh" }}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
             <Typography variant="h3">Please Login</Typography>
-          </Box>
-        </>
-      )}
+          </Box> */}
+
     </>
   );
 };

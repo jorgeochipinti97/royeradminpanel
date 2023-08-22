@@ -1,4 +1,3 @@
-
 import ProductOnfit from "@/Models/ProductOnfit";
 import { db } from "@/database";
 import { isValidObjectId } from "mongoose";
@@ -20,9 +19,8 @@ export default async function handler(req, res) {
         categoria,
         subcategoria,
         tags,
-        personalization
+        personalization,
       } = req.body;
-
 
       const nuevoProducto = new ProductOnfit({
         titulo,
@@ -35,10 +33,10 @@ export default async function handler(req, res) {
         tags,
         categoria,
         subcategoria,
-        personalization
+        personalization,
       });
       await nuevoProducto.save();
-      console.log(nuevoProducto)
+      console.log(nuevoProducto);
       res.status(201).json({ message: "Producto creado exitosamente" });
     } catch (error) {
       console.error("Error al crear el producto:", error);
@@ -49,13 +47,13 @@ export default async function handler(req, res) {
       const productos = await ProductOnfit.find();
 
       res.status(200).json(productos);
-
     } catch (error) {
       console.error("Error al obtener los productos:", error);
       res.status(500).json({ error: "Error al obtener los productos" });
     }
   } else if (req.method === "PUT") {
     try {
+      console.log(req.body);
       const fieldsToUpdate = {
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
@@ -65,7 +63,7 @@ export default async function handler(req, res) {
         talles: req.body.talles,
         categoria: req.body.categoria,
         subcategoria: req.body.subcategoria,
-        tags:req.body.tags
+        tags: req.body.tags,
       };
       const product = await ProductOnfit.findOneAndUpdate(
         {
@@ -74,13 +72,11 @@ export default async function handler(req, res) {
         fieldsToUpdate,
         { new: true }
       );
-      console.log(product)
-    res.status(200).json({ message: "Producto actualizado exitosamente" });
-
+      console.log(product);
+      res.status(200).json({ message: "Producto actualizado exitosamente" });
     } catch (err) {
-      console.log('error',err);
+      console.log("error", err);
       res.status(500).json({ error: "Error al actualizar los productos" });
-
     }
   } else {
     res.status(405).json({ error: "Método no permitido" });

@@ -37,7 +37,6 @@ const ProductRoyerCustom = () => {
   const [imagesArray, setImagesArray] = useState([]);
   const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "AVIF", "WEBP"];
 
-
   const init = async (slug_) => {
     const data = await axios.get("/api/onfitproduct");
     setProductosExistentes(data.data);
@@ -77,6 +76,7 @@ const ProductRoyerCustom = () => {
       setImagesArray([]);
     } else {
       const product_ = data.data.filter((e) => e.slug == query.slug);
+
       setProducto_(product_[0]);
       product_ && setTitulo(product_[0].titulo);
       product_ && setDescripcion(product_[0].descripcion);
@@ -265,14 +265,16 @@ const ProductRoyerCustom = () => {
     const updatedTalles = talles.map((talle, i) =>
       i === index ? { ...talle, [field]: value } : talle
     );
-
+    console.log(updatedTalles);
     if (field === "stock" && (isNaN(value) || parseInt(value) < 0)) {
       // Si es inválido o negativo, mostrar mensaje de error o hacer algo
       return;
     }
     setTalles(updatedTalles);
   };
-
+  useEffect(() => {
+    console.log(talles);
+  }, [talles]);
   const handleEliminarFoto = (index) => {
     const nuevasImagenes = [...imagesArray];
     nuevasImagenes.splice(index, 1);
@@ -426,6 +428,7 @@ const ProductRoyerCustom = () => {
                   <MenuItem value={"short"}>short</MenuItem>
                   <MenuItem value={"pantalon"}>pantalon</MenuItem>
                   <MenuItem value={"medias"}>medias</MenuItem>
+                  <MenuItem value={"medias"}>campera</MenuItem>
                 </Select>
               </div>
             )}
@@ -445,6 +448,7 @@ const ProductRoyerCustom = () => {
                   <MenuItem value={"short"}>short</MenuItem>
                   <MenuItem value={"calza"}>calza</MenuItem>
                   <MenuItem value={"medias"}>medias</MenuItem>
+                  <MenuItem value={"medias"}>campera</MenuItem>
                 </Select>
               </div>
             )}
@@ -469,7 +473,6 @@ const ProductRoyerCustom = () => {
                 >
                   <MenuItem value={"proteina"}>proteina</MenuItem>
                   <MenuItem value={"creatina"}>creatina</MenuItem>
-
                 </Select>
               </div>
             )}
