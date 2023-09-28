@@ -395,7 +395,6 @@ const ProductRoyerCustom = () => {
             <Box sx={{ my: 2 }}>
               <TextField
                 label="Precio"
-                type="number"
                 value={precio}
                 onChange={handlePrecioChange}
                 required
@@ -476,7 +475,6 @@ const ProductRoyerCustom = () => {
                     <TextField
                       value={talle.stock}
                       label="stock"
-                      type="number"
                       onChange={(e) =>
                         handleTalleChange(
                           index,

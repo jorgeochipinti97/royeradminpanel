@@ -63,6 +63,7 @@ const ProductsRoyer = () => {
     categoria: product.categoria,
     subcategoria: product.subcategoria,
   }));
+  
   const handleEliminarSeleccionados = async () => {
     try {
 
