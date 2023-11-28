@@ -13,6 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
@@ -296,6 +297,11 @@ const ProductRoyerCustom = () => {
     setTitulo(cleanedTitulo);
   };
 
+  const handleEditorChange = (content, editor) => {
+    setDescripcion(content);
+  };
+
+
   const handlePrecioChange = (event) => {
     const newPrecio = event.target.value;
 
@@ -380,17 +386,29 @@ const ProductRoyerCustom = () => {
               />
             </Box>
             <Box sx={{ my: 2 }}>
-              <TextField
-                label="Descripcion"
-                variant="filled"
-                type="text"
-                value={descripcion}
-                multiline
-                rows={4}
-                sx={{ width: "500px" }}
-                onChange={(e) => setDescripcion(e.target.value)}
-                required
+              <Editor
+                    apiKey='x16fx9mh5mms0wjwuudxzaw3l7tm8j31n9g07acsprtht35f'
+
+                initialValue="<p>Escribe algo aquí...</p>"
+                init={{
+                  height: 500,
+                  menubar: false,
+                  plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste code help wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | formatselect | " +
+                    "bold italic backcolor | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "removeformat | help",
+                  content_style:
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                }}
+                onEditorChange={handleEditorChange}
               />
+
             </Box>
 
             <Box sx={{ my: 2 }}>
@@ -549,44 +567,44 @@ const ProductRoyerCustom = () => {
               {productosExistentes &&
                 productosExistentes.map((producto) => (
                   <Grid item md={3} sx={{ my: 2 }} key={producto._id}>
-                  <Card
-                    sx={{
-                      width: "200px",
-                      borderRadius: "0px",
-                    }}
-                  >
-                    <Typography variant="body1" textAlign={"center"}>
-                      {producto.titulo}
-                    </Typography>
-                    <Box display={"flex"} justifyContent={"center"}>
-                      <img
-                        src={producto.images[0]}
-                        width={100}
-                        height={100}
-                      />
-                    </Box>
-                    <Box
-                      display={"flex"}
-                      justifyContent={"center"}
-                      sx={{ my: 1 }}
+                    <Card
+                      sx={{
+                        width: "200px",
+                        borderRadius: "0px",
+                      }}
                     >
-                      <Button
-                        type="button"
-                        variant="outlined"
-                        color={
-                          productosRelacionados.indexOf(producto._id) >= 0
-                            ? "error"
-                            : "secondary"
-                        }
-                        onClick={() => handleAddRelacionado(producto._id)}
+                      <Typography variant="body1" textAlign={"center"}>
+                        {producto.titulo}
+                      </Typography>
+                      <Box display={"flex"} justifyContent={"center"}>
+                        <img
+                          src={producto.images[0]}
+                          width={100}
+                          height={100}
+                        />
+                      </Box>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"center"}
+                        sx={{ my: 1 }}
                       >
-                        {productosRelacionados.indexOf(producto._id) >= 0
-                          ? "Eliminar Producto"
-                          : "Agregar Producto"}
-                      </Button>
-                    </Box>
-                  </Card>
-                </Grid>
+                        <Button
+                          type="button"
+                          variant="outlined"
+                          color={
+                            productosRelacionados.indexOf(producto._id) >= 0
+                              ? "error"
+                              : "secondary"
+                          }
+                          onClick={() => handleAddRelacionado(producto._id)}
+                        >
+                          {productosRelacionados.indexOf(producto._id) >= 0
+                            ? "Eliminar Producto"
+                            : "Agregar Producto"}
+                        </Button>
+                      </Box>
+                    </Card>
+                  </Grid>
                 ))}
             </Grid>
             <Box sx={{ py: 4 }} display={"flex"} justifyContent={"center"}>
