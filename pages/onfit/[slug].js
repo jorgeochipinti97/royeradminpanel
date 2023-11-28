@@ -389,7 +389,7 @@ const ProductRoyerCustom = () => {
               <Editor
                     apiKey='x16fx9mh5mms0wjwuudxzaw3l7tm8j31n9g07acsprtht35f'
 
-                initialValue="<p>Escribe algo aquí...</p>"
+                initialValue={`${descripcion && descripcion }`}
                 init={{
                   height: 500,
                   menubar: true,
