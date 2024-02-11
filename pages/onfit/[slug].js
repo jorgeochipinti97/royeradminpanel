@@ -161,7 +161,7 @@ const ProductRoyerCustom = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("ml_default", "royerstore");
+      formData.append('upload_preset', 'ml_default');
 
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/duptnofi0/image/upload",
