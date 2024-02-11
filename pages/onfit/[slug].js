@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
-import { CldImage } from "next-cloudinary";
+
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
 
@@ -161,7 +161,7 @@ const ProductRoyerCustom = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append('upload_preset', 'ml_default');
+      formData.append("upload_preset", "ml_default");
 
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/duptnofi0/image/upload",
@@ -332,10 +332,7 @@ const ProductRoyerCustom = () => {
             maxSize={20}
           />
 
-          <CldImage width="600" height="600" src="<Public ID>" 
-          handleChange={handleChange}
-          
-          />
+
           <Box sx={{ display: "flex", my: 2 }}>
             {producto_ &&
               producto_.images.map((e, index) => (
