@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
+import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
 
@@ -160,7 +161,7 @@ const ProductRoyerCustom = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "royerstore");
+      formData.append("ml_default", "royerstore");
 
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/duptnofi0/image/upload",
@@ -301,7 +302,6 @@ const ProductRoyerCustom = () => {
     setDescripcion(content);
   };
 
-
   const handlePrecioChange = (event) => {
     const newPrecio = event.target.value;
 
@@ -329,9 +329,13 @@ const ProductRoyerCustom = () => {
             handleChange={handleChange}
             name="file"
             types={fileTypes}
-            maxSize={4}
+            maxSize={20}
           />
 
+          <CldImage width="600" height="600" src="<Public ID>" 
+          handleChange={handleChange}
+          
+          />
           <Box sx={{ display: "flex", my: 2 }}>
             {producto_ &&
               producto_.images.map((e, index) => (
@@ -387,27 +391,27 @@ const ProductRoyerCustom = () => {
             </Box>
             <Box sx={{ my: 2 }}>
               <Editor
-                    apiKey='x16fx9mh5mms0wjwuudxzaw3l7tm8j31n9g07acsprtht35f'
-
-                initialValue={`${descripcion && descripcion }`}
+                apiKey="x16fx9mh5mms0wjwuudxzaw3l7tm8j31n9g07acsprtht35f"
+                initialValue={`${descripcion && descripcion}`}
                 init={{
                   height: 500,
                   menubar: true,
                   plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount',
-                    'fontfamily fontsize' // Agregar plugins para la fuente
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste code help wordcount",
+                    "fontfamily fontsize", // Agregar plugins para la fuente
                   ],
-                  toolbar: 'undo redo | styles | bold italic backcolor | ' +
-                           'alignleft aligncenter alignright alignjustify | ' +
-                           'bullist numlist outdent indent | ' +
-                           'fontselect fontsizeselect', // Agregar opciones para la fuente y listas
-                  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                  toolbar:
+                    "undo redo | styles | bold italic backcolor | " +
+                    "alignleft aligncenter alignright alignjustify | " +
+                    "bullist numlist outdent indent | " +
+                    "fontselect fontsizeselect", // Agregar opciones para la fuente y listas
+                  content_style:
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}
                 onEditorChange={handleEditorChange}
               />
-
             </Box>
 
             <Box sx={{ my: 2 }}>
