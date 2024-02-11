@@ -163,7 +163,7 @@ const ProductRoyerCustom = () => {
       formData.append("upload_preset", "royerstore");
 
       const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dyjv8k20k/image/upload",
+        "https://api.cloudinary.com/v1_1/duptnofi0/image/upload",
         {
           method: "POST",
           body: formData,
