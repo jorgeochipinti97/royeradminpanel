@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
+import { CldUploadButton } from "next-cloudinary";
 
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
@@ -325,13 +326,14 @@ const ProductRoyerCustom = () => {
         >
           <h1>{titulo}</h1>
 
-          <FileUploader
+          {/* <FileUploader
             handleChange={handleChange}
             name="file"
             types={fileTypes}
             maxSize={20}
-          />
+          /> */}
 
+          <CldUploadButton uploadPreset="ml_default" />
 
           <Box sx={{ display: "flex", my: 2 }}>
             {producto_ &&
